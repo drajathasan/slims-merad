@@ -10,10 +10,12 @@ class Biblio extends Contract
     const UPDATED_AT = 'last_update';
     const CREATED_AT = 'input_date';
 
-    public function toOther()
+    public function toManyById(array $ids = [])
     {
-        $lastId = $this->biblio_id;
+        $lastBiblioId = $this->biblio_id;
+        $source = $this->sourceModelInstance;
 
-        
+        if (isset($source->Author)) Author::createOrGetIfExists($source->Author, $this, $lastBiblioId);
+        if (isset($source->Subject)) Subject::createOrGetIfExists($source->Subject, $this, $lastBiblioId);
     }
 }

@@ -7,7 +7,7 @@ class Catalog extends Contract
 {
     protected $connection = 'inlis';
 
-    public function toOther()
+    public function toManyById(array $ids = [])
     {
 
     }

@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Contract extends Model
 {
+    protected ?object $sourceModelInstance = null;
+
     public function transferTo(string $anotherModelNameOrClass, array $columnMap)
     {
         if (class_exists($finalClass = '\SLiMS\Merad\Models\\' . $anotherModelNameOrClass)) {
@@ -18,8 +20,10 @@ abstract class Contract extends Model
 
     public function retriveAndStore(object $sourceModelInstance, array $columnMap)
     {
+        $this->sourceModelInstance = $sourceModelInstance;
+
         foreach ($columnMap as $original => $dest) {
-            $value = $sourceModelInstance->$original;
+            $value = $this->sourceModelInstance->$original;
 
             if (is_array($dest)) {
                 list($dest, $formattedValue) = $dest;
@@ -27,12 +31,12 @@ abstract class Contract extends Model
                 continue;
             }
 
-            $this->$dest = $sourceModelInstance->$original;
+            $this->$dest = $this->sourceModelInstance->$original;
         }
 
         $this->save();
         return $this;
     }
 
-    abstract protected function toOther();
+    abstract protected function toManyById(array $ids = []);
 }

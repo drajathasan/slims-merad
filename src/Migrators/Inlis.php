@@ -45,7 +45,8 @@ class Inlis extends Contract
         ];
 
         foreach (Catalog::cursor() as $catalog) {
-            $catalog->transferTo('Senayan\Biblio', $map)->toOther();
+            $catalog->transferTo('Senayan\Biblio', $map)->toManyById();
+            break;
         }
 
 
