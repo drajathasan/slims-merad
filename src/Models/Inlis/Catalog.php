@@ -6,4 +6,9 @@ use SLiMS\Merad\Models\Contract;
 class Catalog extends Contract
 {
     protected $connection = 'inlis';
+
+    public function toOther()
+    {
+
+    }
 }

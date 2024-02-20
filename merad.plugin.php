@@ -8,11 +8,10 @@
  * Author URI: https://t.me/drajathasan
  */
 use SLiMS\Merad\Bootstrap;
+use SLiMS\Merad\Commands\Kuli;
 use SLiMS\Plugins;
 
 require __DIR__ . '/vendor/autoload.php';
 
 Bootstrap::setupDatabase()->withOrm();
-
-dd(\SLiMS\Merad\Models\Inlis\Catalog::limit(5)->get());
-// Plugins::getInstance()->registerCommand();
+Plugins::getInstance()->registerCommand(new Kuli);

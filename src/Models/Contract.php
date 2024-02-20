@@ -18,6 +18,21 @@ abstract class Contract extends Model
 
     public function retriveAndStore(object $sourceModelInstance, array $columnMap)
     {
-        dd(func_get_args());
+        foreach ($columnMap as $original => $dest) {
+            $value = $sourceModelInstance->$original;
+
+            if (is_array($dest)) {
+                list($dest, $formattedValue) = $dest;
+                $this->$dest = $formattedValue($value)[0]??'';
+                continue;
+            }
+
+            $this->$dest = $sourceModelInstance->$original;
+        }
+
+        $this->save();
+        return $this;
     }
+
+    abstract protected function toOther();
 }
