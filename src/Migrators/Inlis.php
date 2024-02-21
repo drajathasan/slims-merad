@@ -4,12 +4,14 @@ namespace SLiMS\Merad\Migrators;
 use SLiMS\Table\Schema;
 use SLiMS\Table\Blueprint;
 use SLiMS\Merad\Models\Inlis\Catalog;
+use SLiMS\Merad\Models\Inlis\Collection;
 
 class Inlis extends Contract
 {
     public function migrate()
     {
-        $this->catalogToBiblio();
+        // $this->catalogToBiblio();
+        $this->collectionToItem();
     }
 
     private function catalogToBiblio()
@@ -78,5 +80,34 @@ class Inlis extends Contract
         }
 
 
+    }
+
+    private function collectionToItem()
+    {
+        if (!Schema::hasColumn('item', 'inID')) {
+            Schema::table('item', function(Blueprint $table) {
+                $table->number('inID', 11)->nullable()->add();
+            });
+        }
+
+        $map = [
+            'NomorBarcode' => 'item_code',
+            'Currency' => 'price_currency',
+            'Price' => 'price',
+            'TanggalPengadaan' => 'received_date',
+            'CallNumber' => 'call_number',
+            'CreateDate' => 'input_date',
+            'UpdateDate' => 'last_update',
+            'CreateBy' => 'uid',
+            'ID' => 'inID'
+        ];
+
+        $total = Collection::count();
+        foreach (Collection::cursor() as $seq => $collection) {
+            $seq = $seq + 1;
+            $collection->transferTo('Senayan\Item', $map)->updateId();
+            $precentage = $seq / $total * 100;
+            echo 'Berhasil memproses data kode item ' . $collection->NomorBarcode . ' - ' . $precentage . '%' . PHP_EOL;
+        }
     }
 }
