@@ -24,6 +24,18 @@ class Inlis extends Contract
             Schema::table('search_biblio', function(Blueprint $table) {
                 $table->string('isbn_issn', 700)->nullable()->change();
             });
+
+            Schema::table('mst_topic', function(Blueprint $table) {
+                $table->string('topic', 700)->notNull()->change();
+            });
+
+            Schema::table('mst_place', function(Blueprint $table) {
+                $table->string('place_name', 700)->notNull()->change();
+            });
+
+            Schema::table('mst_author', function(Blueprint $table) {
+                $table->string('author_name', 700)->notNull()->change();
+            });
         }
 
         $map = [
@@ -32,21 +44,37 @@ class Inlis extends Contract
                 $parSeTitle = explode('/', $value);
                 return [trim($parSeTitle[0]??''), trim($parSeTitle[1]??'')];
             }],
-            'Edition' => 'edition',
-            'PublishYear' => 'publish_year',
+            'Edition' => ['edition', function($value) {
+                $value = substr($value, 0,50);
+                return [trim($value), trim($value)];
+            }],
+            'PublishYear' => ['publish_year', function($value) {
+                $value = substr($value, 0,4);
+                return [trim($value), trim($value)];
+            }],
             'PhysicalDescription' => 'spec_detail_info',
             'ISBN' => 'isbn_issn',
-            'CallNumber' => 'call_number',
+            'CallNumber' => ['call_number', function($value) {
+                $value = substr($value, 0,50);
+                return [trim($value), trim($value)];
+            }],
             'Note' => 'notes',
-            'DeweyNo' => 'classification',
+            'DeweyNo' => ['classification', function($value) {
+                $value = substr($value, 0,50);
+                return [trim($value), trim($value)];
+            }],
+            'CoverURL' => 'image',
             'CreateBy' => 'uid',
             'CreateDate' => 'input_date',
             'UpdateDate' => 'last_update'
         ];
 
-        foreach (Catalog::cursor() as $catalog) {
+        $total = Catalog::count();
+        foreach (Catalog::cursor() as $seq => $catalog) {
+            $seq = $seq + 1;
             $catalog->transferTo('Senayan\Biblio', $map)->toManyById();
-            break;
+            $precentage = $seq / $total * 100;
+            echo 'Selesai memproses ' . $catalog->Title . ' ' . $seq . '/' . $total . ' - ' . $precentage . '%' . PHP_EOL;
         }
 
 

@@ -3,7 +3,7 @@ namespace SLiMS\Merad\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Contract extends Model
+abstract class Base extends Model
 {
     protected ?object $sourceModelInstance = null;
 
@@ -36,6 +36,46 @@ abstract class Contract extends Model
 
         $this->save();
         return $this;
+    }
+
+    public static function createOrGetIfExists(string $data, array $detail)
+    {
+        if (empty($data)) return;
+
+        list(
+            $sourceModel, 
+            $primaryKey,
+            $criteria,
+            $lastBiblioId,
+            $fields
+        ) = array_values($detail);
+
+        $ids = [];
+        $datas = explode(';', $data);
+        foreach ($datas as $eachData) {
+            $model = self::where($criteria, $eachData)->first();
+
+            if ($model === null) {
+                $model = new static;
+                foreach ($fields as $seq => $key) {
+                    if (is_array($key)) {
+                        $model->{$key[0]} = $key[1];
+                        continue;
+                    }
+                    $model->$key = substr($eachData, 0,100);
+                }
+                $model->save();
+            }
+
+            $model->toManyById([
+                $primaryKey => $model->$primaryKey,
+                'biblio_id' => $lastBiblioId
+            ]);
+
+            $ids[] = $model->$primaryKey;
+        }
+
+        return $ids;
     }
 
     abstract protected function toManyById(array $ids = []);
