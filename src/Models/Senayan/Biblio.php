@@ -11,6 +11,39 @@ class Biblio extends Base
     const UPDATED_AT = 'last_update';
     const CREATED_AT = 'input_date';
 
+    public function scopeMakeFullIndex($query)
+    {
+        
+    }
+
+    public function scopeMakeIndex($query, int $biblio_id)
+    {
+        $query->select('biblio.biblio_id','biblio.title','biblio.edition','biblio.publish_year','biblio.notes','biblio.series_title','biblio.classification','biblio.spec_detail_info',
+            'g.gmd_name AS `gmd`', 'pb.publisher_name AS `publisher`', 'pl.place_name AS `publish_place`','biblio.isbn_issn',
+            'lg.language_name AS `language`','biblio.call_number','biblio.opac_hide','biblio.promoted','biblio.labels','biblio.collation','biblio.image',
+	    'rct.content_type', 'rmt.media_type', 'rcrt.carrier_type',
+	    'biblio.input_date','biblio.last_update');
+        $query
+            ->join('mst_gmd AS g', 'biblio.gmd_id', '=', 'g.gmd_id', 'left')
+            ->join('mst_publisher AS pb', 'biblio.publisher_id', '=', 'pb.publisher_id', 'left')
+            ->join('mst_place AS pl', 'biblio.publish_place_id', '=', 'pl.place_id', 'left')
+            ->join('mst_language AS lg', 'biblio.language_id', '=', 'lg.language_id', 'left')
+            ->join('mst_content_type AS rct', 'biblio.content_type_id', '=', 'lg.language_id', 'left')
+            ->join('mst_media_type AS rmt', 'biblio.media_type_id', '=', 'rmt.id', 'left')
+            ->join('mst_carrier_type AS rcrt', 'biblio.carrier_type_id', '=', 'rcrt.id', 'left');
+
+        $query->where('biblio.biblio_id', $biblio_id);
+
+        $biblio = $query->first();
+
+        if (!empty($biblio->notes)) 
+            $biblio->notes = strip_tags($biblio->notes??'', '<br><p><div><span><i><em><strong><b><code>');
+
+        
+
+        return $this;
+    }
+
     public function toManyById(array $ids = [])
     {
         $source = $this->sourceModelInstance;

@@ -3,6 +3,7 @@ namespace SLiMS\Merad\Migrators;
 
 use SLiMS\Table\Schema;
 use SLiMS\Table\Blueprint;
+use SLiMS\Merad\Models\Senayan\Biblio;
 use SLiMS\Merad\Models\Inlis\Catalog;
 use SLiMS\Merad\Models\Inlis\Collection;
 
@@ -11,7 +12,8 @@ class Inlis extends Contract
     public function migrate()
     {
         // $this->catalogToBiblio();
-        $this->collectionToItem();
+        // $this->collectionToItem();
+        $this->makeIndex();
     }
 
     private function catalogToBiblio()
@@ -107,7 +109,12 @@ class Inlis extends Contract
             $seq = $seq + 1;
             $collection->transferTo('Senayan\Item', $map)->updateId();
             $precentage = $seq / $total * 100;
-            echo 'Berhasil memproses data kode item ' . $collection->NomorBarcode . ' - ' . $precentage . '%' . PHP_EOL;
+            echo 'Berhasil memproses data kode item ' . $collection->NomorBarcode . ' ' . $seq . '/' . $total . ' - ' . $precentage . '%' . PHP_EOL;
         }
+    }
+
+    private function makeIndex()
+    {
+        Biblio::makeIndex(1);
     }
 }
