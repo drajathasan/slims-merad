@@ -115,6 +115,6 @@ class Inlis extends Contract
 
     private function makeIndex()
     {
-        Biblio::makeIndex(1);
+        Biblio::makeFullIndex();
     }
 }

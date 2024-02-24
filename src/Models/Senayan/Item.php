@@ -16,6 +16,12 @@ class Item extends Base
     {
     }
 
+    public function scopeGetFormattedItem($query, $biblio_id)
+    {
+        $items = $query->select('item_code')->where('biblio_id', $biblio_id)->get();
+        return implode('-', array_values($items->toArray()[0]??[]));
+    }
+
     public function updateId()
     {
         $source = $this->sourceModelInstance;

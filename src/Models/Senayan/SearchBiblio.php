@@ -10,6 +10,7 @@ class SearchBiblio extends Base
     protected $primaryKey = 'biblio_id';
     const UPDATED_AT = 'last_update';
     const CREATED_AT = 'input_date';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function toManyById(array $ids = [])
     {

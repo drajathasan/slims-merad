@@ -10,17 +10,23 @@ class Biblio extends Base
     protected $primaryKey = 'biblio_id';
     const UPDATED_AT = 'last_update';
     const CREATED_AT = 'input_date';
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
 
     public function scopeMakeFullIndex($query)
     {
-        
+        SearchBiblio::truncate();
+        foreach ($this->cursor() as $biblio) {
+            $this->makeIndex($biblio->biblio_id);
+        }
     }
 
     public function scopeMakeIndex($query, int $biblio_id)
     {
         $query->select('biblio.biblio_id','biblio.title','biblio.edition','biblio.publish_year','biblio.notes','biblio.series_title','biblio.classification','biblio.spec_detail_info',
-            'g.gmd_name AS `gmd`', 'pb.publisher_name AS `publisher`', 'pl.place_name AS `publish_place`','biblio.isbn_issn',
-            'lg.language_name AS `language`','biblio.call_number','biblio.opac_hide','biblio.promoted','biblio.labels','biblio.collation','biblio.image',
+            'g.gmd_name AS gmd', 'pb.publisher_name AS publisher', 'pl.place_name AS publish_place','biblio.isbn_issn',
+            'lg.language_name AS language','biblio.call_number','biblio.opac_hide','biblio.promoted','biblio.labels','biblio.collation','biblio.image',
 	    'rct.content_type', 'rmt.media_type', 'rcrt.carrier_type',
 	    'biblio.input_date','biblio.last_update');
         $query
@@ -36,12 +42,21 @@ class Biblio extends Base
 
         $biblio = $query->first();
 
+        if ($biblio->content_type === null) $biblio->content_type = '';
+        if ($biblio->media_type === null) $biblio->media_type = '';
+        if ($biblio->carrier_type === null) $biblio->carrier_type = '';
+        $biblio->publish_place = substr($biblio->publish_place, 0,30);
+
         if (!empty($biblio->notes)) 
             $biblio->notes = strip_tags($biblio->notes??'', '<br><p><div><span><i><em><strong><b><code>');
 
-        
+        $biblio->author = BiblioAuthor::getFormattedAuthor($biblio_id);
 
-        return $this;
+        $biblio->topic = BiblioTopic::getFormattedTopic($biblio_id);
+
+        $biblio->items = Item::getFormattedItem($biblio_id);
+
+        return SearchBiblio::insert($biblio->toArray());
     }
 
     public function toManyById(array $ids = [])
@@ -142,5 +157,10 @@ class Biblio extends Base
             ]);
         }
         //  
+    }
+
+    public function toArray()
+    {
+        return $this->attributes;
     }
 }
