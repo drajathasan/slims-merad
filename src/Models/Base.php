@@ -27,7 +27,7 @@ abstract class Base extends Model
 
             if (is_array($dest)) {
                 list($dest, $formattedValue) = $dest;
-                $this->$dest = $formattedValue($value)[0]??'';
+                $this->$dest = is_array($callBack = $formattedValue($value)) ? ($formattedValue($value)[0]??'') : $callBack;
                 continue;
             }
 
