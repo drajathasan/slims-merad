@@ -16,30 +16,8 @@ use SLiMS\Merad\Models\Inlis\Collection;
 use SLiMS\Merad\Models\Inlis\Memberis;
 use SLiMS\Merad\Models\Inlis\Collectionloanitem;
 
-/* Etc */
-use Symfony\Component\Console\Helper\ProgressBar;
-
 class Inlis extends Contract
 {
-    private ?object $console = null;
-    private ?object $output = null;
-    private ?object $input = null;
-    private ?object $progress = null;
-
-    public function setConsole(Object $console)
-    {
-        $this->console = $console;
-        $this->output = $this->console->getOutput();
-        $this->input = $this->console->getInput();
-        return $this;
-    }
-
-    public function setProgress(int $unit)
-    {
-        $this->progress = null;
-        $this->progress = new ProgressBar($this->output, $unit);
-    }
-
     public function migrate()
     {
         $this->console->info('Memigrasikan Catalog ke Biblio');

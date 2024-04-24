@@ -35,9 +35,15 @@ class Kuli extends Command
         $class = '\SLiMS\Merad\Migrators\\' . ($migratorName = ucfirst($this->argument('migratorname')??'Uknown'));
 
         try {
+
+            if (!class_exists($class)) {
+                $class = $this->argument('migratorname');
+                dd($class);
+            }
+
             $migrator = new $class;
 
-            $this->setBanner();
+            if ($this->setBanner() === 0) return 0;
 
             $migrator->setConsole($this)->migrate();
         } catch (\Throwable $e) {
@@ -70,7 +76,10 @@ version v1.0.0
 
         if (strtoupper(substr($response, 0,1)) == 'T') {
             $this->output->write("Yah anda tidak setuju 😔 \n");
+            return 0;
         }
+
+        return 1;
     }
 
     public function getOutput()
