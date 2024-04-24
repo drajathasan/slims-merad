@@ -20,6 +20,11 @@ class Inlis extends Contract
 {
     public function migrate()
     {
+        if (Biblio::count() > 0) {
+            $this->output->write('Tidak dapat memigrasikan karena basis data SLiMS sudah terisi 😔' . PHP_EOL);
+            exit;
+        }
+
         $this->console->info('Memigrasikan Catalog ke Biblio');
         $this->catalogToBiblio();
 

@@ -35,10 +35,14 @@ class Kuli extends Command
         $class = '\SLiMS\Merad\Migrators\\' . ($migratorName = ucfirst($this->argument('migratorname')??'Uknown'));
 
         try {
-
+            // Load from custom migrators
             if (!class_exists($class)) {
-                $class = $this->argument('migratorname');
-                dd($class);
+                $class = '\Customs\Migrators\\' . $migratorName;
+
+                // or load from anthoer class
+                if (!class_exists($class)) {
+                    $class = $this->argument('migratorname');
+                }
             }
 
             $migrator = new $class;
