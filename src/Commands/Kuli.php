@@ -16,7 +16,7 @@ class Kuli extends Command
      *
      * @var string
      */
-    protected string $signature = 'merad:dari {migratorname}';
+    protected string $signature = 'merad:dari {migratorname} {--y|ya}';
 
     /**
      * Command description
@@ -47,7 +47,8 @@ class Kuli extends Command
 
             $migrator = new $class;
 
-            if ($this->setBanner() === 0) return 0;
+            if ($this->isAggree() === false)
+                if ($this->setBanner() === 0) return 0;
 
             $migrator->setConsole($this)->migrate();
         } catch (\Throwable $e) {
@@ -70,7 +71,7 @@ version v1.0.0
         $question = new ChoiceQuestion(
             "Hai, plugin dibuat dengan lisensi GPL versi 3 dengan kata lain plugin ini hadir tanpa ada garansi terkait kesuksesan hasilnya \nmaka jangan lupa melakukan backup data anda sebelum menjalankan migrator ini.\n\nApakah anda setuju 🤔?",
             // choices can also be PHP objects that implement __toString() method
-            ['Y' => 'Ya', 'T' => 'Tidak'],
+            ['y' => 'Ya', 't' => 'Tidak'],
             0
         );
 
@@ -94,5 +95,13 @@ version v1.0.0
     public function getInput()
     {
         return $this->input;
+    }
+
+    public function isAggree()
+    {
+        $inputAsString = (string)$this->input;
+        $eachInput = array_pop(explode(' ', $inputAsString));
+        
+        return (bool)preg_match('/(-y|--ya)/', $eachInput);
     }
 } 

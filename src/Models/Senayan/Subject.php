@@ -12,6 +12,6 @@ class Subject extends Base
 
     public function toManyById(array $ids = [])
     {
-        BiblioTopic::insert($ids);
+        BiblioTopic::insertOrIgnore($ids);
     }
 }

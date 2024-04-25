@@ -10,6 +10,10 @@ class Language extends Base
     const UPDATED_AT = 'last_update';
     const CREATED_AT = 'input_date';
 
+    protected $casts = [
+        'language_id' => 'string',
+    ];
+
     public function toManyById(array $ids = [])
     {
     }

@@ -57,14 +57,16 @@ abstract class Base extends Model
 
             if ($model === null) {
                 $model = new static;
+
+                $newFields = [];
                 foreach ($fields as $seq => $key) {
                     if (is_array($key)) {
-                        $model->{$key[0]} = $key[1];
+                        $newFields[$key[0]] = $key[1];
                         continue;
                     }
-                    $model->$key = substr($eachData, 0,100);
+                    $newFields[$key] = substr($eachData, 0,30);
                 }
-                $model->save();
+                $model->insertOrIgnore($newFields);
             }
 
             $model->toManyById([

@@ -12,6 +12,6 @@ class Author extends Base
 
     public function toManyById(array $ids = [])
     {
-        BiblioAuthor::insert($ids);
+        BiblioAuthor::insertOrIgnore($ids);
     }
 }
