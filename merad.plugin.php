@@ -9,9 +9,15 @@
  */
 use SLiMS\Merad\Bootstrap;
 use SLiMS\Merad\Commands\Kuli;
+use SLiMS\Merad\Commands\Custom;
 use SLiMS\Plugins;
 
-require __DIR__ . '/vendor/autoload.php';
+if (str_replace(['.','v'], '', SENAYAN_VERSION_TAG) >= '960') {
+    define('MERAD_BASE', __DIR__ . DS);
+    define('MERAD_BASENAME', basename(MERAD_BASE) . DS);
+    require __DIR__ . '/vendor/autoload.php';
 
-Bootstrap::setupDatabase()->withOrm();
-Plugins::getInstance()->registerCommand(new Kuli);
+    Bootstrap::setupDatabase()->withOrm();
+    Plugins::getInstance()->registerCommand(new Kuli);
+    Plugins::getInstance()->registerCommand(new Custom);
+}
