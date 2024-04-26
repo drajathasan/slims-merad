@@ -25,6 +25,11 @@ class Inlis extends Contract
             exit;
         }
 
+        if (config('database.nodes.inliso', false) === false) {
+            $this->output->write('Konfigurasi database untuk Inlistlite belum diatur, huft baca README.md ya 😉👌' . PHP_EOL);
+            exit;
+        }
+
         $this->console->info('Memigrasikan Catalog ke Biblio');
         $this->catalogToBiblio();
 
