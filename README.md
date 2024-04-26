@@ -2,7 +2,7 @@
 Plugini merupakan "tools" yang digunakan untuk memigrasikan data otomasi anda ke SLiMS
 
 ## Cara memasang
-1. Unduh versi rilis nya pada [halaman ini](https://github.com/drajathasan/slims-merad/releases/download/v1.0.0/merad-1.0.0.zip)
+1. Unduh versi rilis nya pada [halaman ini](https://github.com/drajathasan/slims-merad/releases/download/v1.0.1/merad-1.0.1.zip)
 2. Ekstrak plugin yang sudah didownload pada direktori ```plugins/``` yang ada di dalam SLiMS anda.
 3. Aktifkan plugin tersebut pada modul sistem (cari plugin tersebut dengan kata kunci merad)
 4. Setelah diaktifkan, buka aplikasi terminal anda.
