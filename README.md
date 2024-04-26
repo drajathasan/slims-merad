@@ -24,7 +24,7 @@ php index.php tarsius merad:buat:migrator <namamigratoranda> # ganti <namamigrat
 ```
 
 ## Models
-File-file yang digunakan oleh plugin ini untuk berinteraksi dengan *database*. Terimpan di direktori ```src/Models/``` atau ```customs/Models```, bergantung pada konfigurasi database yang ada di dalam file ```config/database.php```. Untuk menambahkan koneksi lainnya baca [dokumentasi ini](https://slims.web.id/docs/development-guide/Database/Intro#menambahkan-koneksi-lain)
+File-file yang digunakan oleh plugin ini untuk berinteraksi dengan *database*. Tersimpan di direktori ```src/Models/``` atau ```customs/Models```, bergantung pada konfigurasi database yang ada di dalam file ```config/database.php```. Untuk menambahkan koneksi lainnya baca [dokumentasi ini](https://slims.web.id/docs/development-guide/Database/Intro#menambahkan-koneksi-lain)
 
 ## Cara menggunakan
 1. Masuk ke dalam aplikasi konsol anda
