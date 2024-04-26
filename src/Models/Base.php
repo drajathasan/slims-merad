@@ -67,14 +67,17 @@ abstract class Base extends Model
                     $newFields[$key] = substr($eachData, 0,30);
                 }
                 $model->insertOrIgnore($newFields);
+                $model = $model->where($criteria, $eachData)->first();
             }
 
-            $model->toManyById([
-                $primaryKey => $model->$primaryKey,
-                'biblio_id' => $lastBiblioId
-            ]);
-
-            $ids[] = $model->$primaryKey;
+            if ($model) {
+                $model->toManyById([
+                    $primaryKey => $model->$primaryKey,
+                    'biblio_id' => $lastBiblioId
+                ]);
+    
+                $ids[] = $model->$primaryKey;
+            }
         }
 
         return $ids;
