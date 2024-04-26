@@ -69,7 +69,7 @@ version v1.0.0
 ");
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
-            "Hai, plugin dibuat dengan lisensi GPL versi 3 dengan kata lain plugin ini hadir tanpa ada garansi terkait kesuksesan hasilnya \nmaka jangan lupa melakukan backup data anda sebelum menjalankan migrator ini.\n\nApakah anda setuju 🤔?",
+            "Hai, plugin dibuat dengan lisensi GPL versi 3 dengan kata lain plugin ini hadir tanpa ada garansi terkait kesuksesan hasil proses migrasi yang anda lakukan \nmaka jangan lupa melakukan backup data anda sebelum menjalankan migrator ini.\n\nApakah anda setuju 🤔?",
             // choices can also be PHP objects that implement __toString() method
             ['y' => 'Ya', 't' => 'Tidak'],
             0
