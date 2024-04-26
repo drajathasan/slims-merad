@@ -1,0 +1,11 @@
+<?php
+namespace Customs\Migrators;
+
+use SLiMS\Merad\Migrators\Contract;
+
+class <migratorname> extends Contract
+{
+    public function migrate() {
+        // tulis kode anda disini
+    }
+}
