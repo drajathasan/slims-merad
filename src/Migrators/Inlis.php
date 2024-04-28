@@ -123,6 +123,11 @@ class Inlis extends Contract
         if (!Schema::hasColumn('item', 'inID')) {
             Schema::table('item', function(Blueprint $table) {
                 $table->number('inID', 11)->nullable()->add();
+                $table->index('inID')->add();
+            });
+
+            Schema::table('mst_coll_type', function(Blueprint $table) {
+                $table->index('coll_type_name')->add();
             });
         }
 
