@@ -58,13 +58,14 @@ class Kuli extends Command
 
     private function setBanner()
     {
+        $merad_version = MERAD_VERSION;
         $this->output->write(" __  __                    _ _ 
 |  \/  | ___ _ __ __ _  __| | |
 | |\/| |/ _ \ '__/ _` |/ _` | |
 | |  | |  __/ | | (_| | (_| |_|
 |_|  |_|\___|_|  \__,_|\__,_(_)
 
-version v1.0.0
+version {$merad_version}
 
 ");
         $helper = $this->getHelper('question');

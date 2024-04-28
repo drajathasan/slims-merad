@@ -15,6 +15,7 @@ use SLiMS\Plugins;
 if (str_replace(['.','v'], '', SENAYAN_VERSION_TAG) >= '960') {
     define('MERAD_BASE', __DIR__ . DS);
     define('MERAD_BASENAME', basename(MERAD_BASE) . DS);
+    define('MERAD_VERSION', 'v1.0.2');
     require __DIR__ . '/vendor/autoload.php';
 
     Bootstrap::setupDatabase()->withOrm();
