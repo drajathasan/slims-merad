@@ -1,8 +1,11 @@
 # Merad
 Plugini merupakan "tools" yang digunakan untuk memigrasikan data otomasi anda ke SLiMS
 
+## Prasyarat
+Saat ini plugin ini hanya diperuntukan untuk SLiMS Develop agar pustaka yang dibutuhkan berjalan dengan baik. Anda dapat mengunduh nya di [link ini](https://github.com/slims/slims9_bulian/archive/refs/heads/develop.zip).
+
 ## Cara memasang
-1. Unduh versi rilis nya pada [halaman ini](https://github.com/drajathasan/slims-merad/releases/download/v1.0.1/merad-1.0.1.zip)
+1. Unduh versi rilis nya pada [halaman ini](https://github.com/drajathasan/slims-merad/releases/download/v1.0.2/merad-1.0.2.zip)
 2. Ekstrak plugin yang sudah didownload pada direktori ```plugins/``` yang ada di dalam SLiMS anda.
 3. Aktifkan plugin tersebut pada modul sistem (cari plugin tersebut dengan kata kunci merad)
 4. Setelah diaktifkan, buka aplikasi terminal anda.
@@ -20,7 +23,7 @@ Pemindahan data menggunakan ```models``` yang tersedia di ```src/Models``` yang 
 ### Kustom Migrator
 Anda juga dapat membuat Migrator anda sendiri dengan membuat folder customs/ dengan perintah berikut:
 ```bash
-php index.php tarsius merad:buat:migrator <namamigratoranda> # ganti <namamigratoranda> dengan nama yang anda inginkan
+php index.php merad:buat:migrator <namamigratoranda> # ganti <namamigratoranda> dengan nama yang anda inginkan
 ```
 
 ## Models
