@@ -18,7 +18,7 @@ Saat ini plugin ini hanya diperuntukan untuk SLiMS Develop agar pustaka yang dib
 ### Penjelasan
 Pengaya ini tidak terlepas dari peran ```migrator```. Merupakan sebuah bagian dari plugin yang berisi sekumpulan baris kode yang mengelola pemindahan basis data dari otomasi sekarang ke SLiMS. Secara ***default*** plugin ini menghadirkan migrator yang bernama ```Inlis``` yang dapat anda gunakan untuk memindahkan data Inlis ke SLiMS seperti data ***Catalogue, Collection, CollectionLoan*** dan ***Member***.
 
-Pemindahan data menggunakan ```models``` yang tersedia di ```src/Models``` yang dipisahkan berdasarkan nama otomasi.
+Pemindahan data menggunakan ```model``` yang tersedia di ```src/Models``` yang dipisahkan berdasarkan nama otomasi.
 
 ### Kustom Migrator
 Anda juga dapat membuat Migrator anda sendiri dengan membuat folder customs/ dengan perintah berikut:
